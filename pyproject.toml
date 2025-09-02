@@ -1,0 +1,75 @@
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "vectordb-stress-tester"
+version = "0.1.0"
+description = "A lightweight framework for benchmarking modern Vector DBs under practical AI/RAG workloads."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "Sal Pal", email = "sal.pal@example.com"}]
+
+dependencies = [
+    "typer",
+    "pydantic",
+    "pydantic-settings",
+    "numpy",
+    "pandas",
+    "plotly",
+    "psutil",
+    "tqdm",
+    "orjson",
+    "rich",
+    "tenacity",
+    "faiss-cpu",
+]
+
+[project.optional-dependencies]
+qdrant = ["qdrant-client"]
+weaviate = ["weaviate-client"]
+milvus = ["pymilvus"]
+pinecone = ["pinecone-client"]
+chroma = ["chromadb"]
+transformers = ["sentence-transformers"]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "hypothesis",
+    "ruff",
+    "black",
+    "mypy",
+    "types-psutil",
+    "types-requests",
+]
+
+[project.scripts]
+vdbt = "vdbt.cli:app"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 88
+select = ["E", "W", "F", "C", "B"]
+ignore = ["B008", "I001"]
+
+[tool.black]
+line-length = 88
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+mypy_path = "src"
+packages = ["vdbt"]
+ignore_missing_imports = true # For optional dependencies
+
+[tool.pytest.ini_options]
+minversion = "6.0"
+addopts = "-q"
+testpaths = [
+    "tests/unit",
+    "tests/integration",
+    "tests/property",
+]
