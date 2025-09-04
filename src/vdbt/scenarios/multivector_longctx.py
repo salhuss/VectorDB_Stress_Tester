@@ -51,7 +51,8 @@ class MultiVectorLongContextScenario:
 
             # Generate long context queries
             for _ in tqdm(
-                range(100), desc=f"Querying with {n_sub_queries} sub-queries"
+                range(100),
+                desc=f"Querying with {n_sub_queries} sub-queries",
             ):
                 ground_truth_label = np.random.default_rng(seed).integers(0, 10)
                 sub_query_vectors, _ = create_synthetic_embeddings(

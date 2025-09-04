@@ -31,9 +31,9 @@ def adapters() -> None:
 @app.command()
 def scenarios() -> None:
     """List available scenarios."""
-    # This will be expanded to dynamically discover scenarios
     typer.echo(
-        "Available scenarios: scale_curve, noise_injection, hybrid_query, update_delete_storm, multivector_longctx"
+        "Available scenarios: scale_curve, noise_injection, hybrid_query, "
+        "update_delete_storm, multivector_longctx"
     )
 
 
