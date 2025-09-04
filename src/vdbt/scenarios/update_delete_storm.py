@@ -85,8 +85,11 @@ class UpdateDeleteStormScenario:
                     deleted_ids.update(delete_ids)
 
             # Perform query and measure latency/staleness
-                                    query_vector, query_label = create_synthetic_embeddings(
-                num_embeddings=1, dim=dim, num_classes=1, seed=int(np_rng.integers(0, 100000))
+            query_vector, query_label = create_synthetic_embeddings(
+                num_embeddings=1,
+                dim=dim,
+                num_classes=1,
+                seed=int(np_rng.integers(0, 100000)),
             )
             query_vector = query_vector[0]
             query_label = query_label[0]

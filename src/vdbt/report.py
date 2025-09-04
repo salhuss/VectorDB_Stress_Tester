@@ -10,8 +10,7 @@ from plotly.offline import plot
 
 
 def generate_report(
-    artifacts_dir: Path,
-    output_file: Path = Path("report.html")
+    artifacts_dir: Path, output_file: Path = Path("report.html")
 ) -> None:
     """Generates an HTML report from benchmark artifacts.
 
@@ -63,7 +62,7 @@ def generate_report(
             plot_path = plots_dir / f"{backend}_latency_vs_scale.html"
             plot(fig, filename=str(plot_path), auto_open=False)
             latency_plot_html += (
-                f"<iframe src=\"{plot_path.name}\" width=\"100%\" height=\"500px\">"
+                f'<iframe src="{plot_path.name}" width="100%" height="500px">'
                 "</iframe>\n"
             )
 
@@ -73,9 +72,7 @@ def generate_report(
         if "noise_injection" in scenarios:
             noise_data = scenarios["noise_injection"]
             noise_ratios = sorted([float(r) for r in noise_data.keys()])
-            recall_at_10 = [
-                noise_data[str(r)]["recall@10"] for r in noise_ratios
-            ]
+            recall_at_10 = [noise_data[str(r)]["recall@10"] for r in noise_ratios]
 
             fig = go.Figure()
             fig.add_trace(
@@ -94,7 +91,7 @@ def generate_report(
             plot_path = plots_dir / f"{backend}_recall_vs_noise.html"
             plot(fig, filename=str(plot_path), auto_open=False)
             recall_plot_html += (
-                f"<iframe src=\"{plot_path.name}\" width=\"100%\" height=\"500px\">"
+                f'<iframe src="{plot_path.name}" width="100%" height="500px">'
                 "</iframe>\n"
             )
 
@@ -130,7 +127,9 @@ different stress workloads.
 
 {recall_plots}
 
- """.format(latency_plots=latency_plot_html, recall_plots=recall_plot_html)
+ """.format(
+        latency_plots=latency_plot_html, recall_plots=recall_plot_html
+    )
 
     executive_summary_html = markdown(executive_summary_md)
 

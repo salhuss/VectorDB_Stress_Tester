@@ -1,6 +1,6 @@
 """Qdrant adapter."""
 
-from typing import Any, Dict, List, Optional, cast
+from typing import Any, Dict, List, Optional, Union, cast
 
 import numpy as np
 from httpx import ConnectError
@@ -18,12 +18,17 @@ class QdrantAdapter(VectorDB):
     def __init__(self, url: str = "http://localhost:6333"):
         self._client = QdrantClient(url=url)
 
-    def connect(self) -> None:
-        """Connect to the Qdrant service."""
+    def connect(self) -> bool:
+        """Connect to the Qdrant service.
+
+        Returns:
+            True if connection is successful, False otherwise.
+        """
         try:
             self._client.get_collections()
-        except (UnexpectedResponse, ConnectError) as e:
-            raise ConnectionError(f"Could not connect to Qdrant: {e}") from e
+            return True
+        except (UnexpectedResponse, ConnectError):
+            return False
 
     def drop_collection(self, name: str) -> None:
         """Drop a collection in Qdrant."""
@@ -98,7 +103,8 @@ class QdrantAdapter(VectorDB):
     def delete(self, name: str, ids: List[str]) -> None:
         """Delete data from a Qdrant collection."""
         self._client.delete(
-            collection_name=name, points_selector=models.PointIdsList(points=cast(List[models.PointId], ids))
+            collection_name=name,
+            points_selector=models.PointIdsList(points=ids),
         )
 
     def memory_bytes(self, name: str) -> Optional[int]:

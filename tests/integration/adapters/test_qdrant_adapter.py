@@ -1,6 +1,5 @@
 """Integration tests for the Qdrant adapter."""
 
-
 import numpy as np
 import pytest
 
@@ -12,11 +11,9 @@ from vdbt.config import settings
 def qdrant_adapter():
     """Returns a QdrantAdapter instance, skipping if not reachable."""
     adapter = QdrantAdapter(url=settings.QDRANT_URL)
-    try:
-        adapter.connect()
-        return adapter
-    except ConnectionError:
+    if not adapter.connect():
         pytest.skip(f"Qdrant not reachable at {settings.QDRANT_URL}")
+    return adapter
 
 
 def test_qdrant_adapter_smoke(qdrant_adapter: QdrantAdapter):

@@ -1,7 +1,8 @@
 """Command-line interface for the VectorDB Stress Tester."""
 
 from pathlib import Path
-from typing import List, cast, Optional
+from typing import Any, Dict, List, Optional, cast
+import json
 
 import typer
 
@@ -24,14 +25,16 @@ app = typer.Typer()
 def adapters() -> None:
     """List available adapters."""
     # This will be expanded to dynamically discover adapters
-    typer.echo("Available adapters: faiss")
+    typer.echo("Available adapters: faiss, qdrant")
 
 
 @app.command()
 def scenarios() -> None:
     """List available scenarios."""
     # This will be expanded to dynamically discover scenarios
-    typer.echo("Available scenarios: scale_curve, noise_injection, hybrid_query")
+    typer.echo(
+        "Available scenarios: scale_curve, noise_injection, hybrid_query, update_delete_storm, multivector_longctx"
+    )
 
 
 @app.command()
@@ -51,6 +54,11 @@ def run(
         "update_delete_storm": UpdateDeleteStormScenario,
         "multivector_longctx": MultiVectorLongContextScenario,
     }
+
+    config: Dict[str, Any] = {}
+    if config_path:
+        with open(config_path, "r") as f:
+            config = json.load(f)
 
     selected_adapters: List[VectorDB] = []
     for adapter_name in adapters_list:

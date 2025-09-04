@@ -25,7 +25,8 @@ class AppConfig(BaseSettings):
         PINECONE_API_KEY: The API key for the Pinecone instance.
         PINECONE_ENV: The environment for the Pinecone instance.
     """
-    model_config = SettingsConfigDict(env_prefix='VDBT_')
+
+    model_config = SettingsConfigDict(env_prefix="VDBT_")
 
     SEED: int = 42
     DIM: int = 384

@@ -10,7 +10,7 @@ class VectorDB(Protocol):
 
     name: str
 
-    def connect(self) -> None:
+    def connect(self) -> bool:
         """Connect to the database."""
         ...
 
